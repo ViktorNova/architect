@@ -1,7 +1,7 @@
 porteus-aur
 ===========
 
-Port of the Arch Linux tools ABS and AUR to build native .xzm packages for Porteus Linux/Slackware automatically utilizing the source repositories from Arch Linux and the Arch User Repository (AUR)
+Port of the Arch Linux tools makepke, ABS, and AUR to build native .xzm packages for Porteus Linux/Slackware automatically utilizing the source repositories from Arch Linux and the Arch User Repository (AUR)
 
 Do all this  as normal user!!! 
 
@@ -76,3 +76,10 @@ Also, if you modify the PKGBUILD and then get an error that something failed the
     makepkg -d --skipinteg
     
 Finally, you MUST run makepkg as a normal user! For safety, but moreso because Slackware also has a program called makepkg, which is used to build Slackware packages, but it lives in /sbin/makepkg (outside normal user's default path) whereas Arch's makepkg lives in /usr/bin. Basically, if you run it as root, it won't work. If you happen to have /sbin in your normal user's path, you will need to run this as /usr/bin/makepkg
+
+
+Right now I just have the xzm modules up here, but this will soon become a real source repository. All Arch-related modules are directly converted from official Arch 64-bit packages and were not modified by me at all.   
+
+aur.sh was taken from here https://wiki.archlinux.org/index.php/Aur.sh and made into an xzm module  
+
+Please feel free to contribute ideas and issues, submit pull requests, or correct me on any of my terminology ;)
