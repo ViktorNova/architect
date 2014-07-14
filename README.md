@@ -1,9 +1,20 @@
-porteus-aur
+Architect
 ===========
+Builds native packages for any Linux distribution the source code repositories from Arch Linux and AUR
 
-Port of the Arch Linux tools makepke, ABS, and AUR to build native .xzm packages for Porteus Linux/Slackware automatically utilizing the source repositories from Arch Linux and the Arch User Repository (AUR)
+This is a work in progress but it does already works!
 
-Do all this  as normal user!!! 
+There is currently no dependency resolution (build-time or install time), so you will have to resolve dependencies on your own until this gets worked out
+
+Note: You will need FPM in order to use this 
+Follow the instructions here to install it with Ruby gems: https://github.com/jordansissel/fpm
+
+
+## --------------------------------------
+#### Note: this section is a little out of date, and only applies to Porteus (using the old method)
+Will be updated soon! 
+
+*Do all this  as normal user!!! *
 
 ##Setup
 

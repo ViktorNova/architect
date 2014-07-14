@@ -1,0 +1,65 @@
+#!/bin/sh
+
+# Try to get this to get run by makepkg at the end
+
+# Uncomment ONE (and only one) of these to match your target system
+PKGTYPE=deb
+#PKGTYPE=rpm
+#PKGTYPE=tar  # Pick this for Slackware
+#PKGTYPE=solaris
+
+PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for deb/rpm at the moment)
+
+
+echo "Architect v. 0.01, 2014-07-13"
+echo "By Viktor Nova"
+echo -e "\nHey dude! Here's the Arch packages I found in the current directory: "
+ls --color *.tar.gz
+read -p "What is the package name? " PKGNAME
+
+read -p "What is the version? " PKGVERSION
+
+
+if [ -d "pkg/$PKGNAME" ]; then
+	pushd pkg/$PKGNAME
+	echo "Stripping pacman metadata from package directory"
+	rm -f .MTREE .PKGINFO
+	ls -l --color
+	popd
+	echo "Creating native package with FPM"
+	fpm -s dir -t $PKGTYPYE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -C pkg/$PKGNAME/ . && \
+		echo -e "Righteous, deb package has been created.\n" && \
+		ls --color *.$PKGTYPYE && \ 
+		exit 0
+	echo "there mighta been a problem with FPM"
+	exit 1
+fi
+
+echo "Error, dude. The directory pkg/$PKGNAME don't exist yo."
+exit 1
+
+cd pkg/$PKGNAME && \
+rm -f .MTREE .PKGINFO && \
+fpm -s dir -t deb -n $PKGNAME -v $VERSION . && \ 
+cd ../..
+echo -e "Righteous, deb package has been created.\n" && \
+ls --color *.deb
+
+
+
+
+
+# ----------------------------------
+
+# FPM takes the argument "--depends DEPENDENCY", and it can be declared multiple times
+# 
+
+# Arch's makepkg generates a .PKGINFO file that has lines like this:
+# depend = pcre
+# depend = libgl
+# ..etc, so it would be easy to use awk to parse that into a legitimate argument to do it
+
+
+
+# THIS DOESN'T WORK YET BUT HERE'S THE SYNTAX
+# fpm -t deb -s dir -n $PKGNAME -v $VERSION $DIR
