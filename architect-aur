@@ -1,0 +1,75 @@
+#!/bin/sh
+echo "Architect v. 0.02, 2014-07-13"
+echo "By Viktor Nova"
+
+# Uncomment ONE (and only one) of these to match your target system
+PKGTYPE="deb"
+#PKGTYPE=rpm
+#PKGTYPE=tar  # Pick this for Slackware
+#PKGTYPE=solaris
+
+PKGARCH="`uname -m`"
+
+PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for deb/rpm at the moment)
+
+# Parts of this section are taken from aur.sh - https://github.com/stuartpb/aur.sh
+d=${BUILDDIR:-$PWD}
+for p in ${@##-*}
+do
+cd $d
+curl https://aur.archlinux.org/packages/${p:0:2}/$p/$p.tar.gz |tar xz
+cd $p
+makepkg -d ${@##[^\-]*}
+
+	if [ $? -ne 0 ]
+		then
+			echo "Build failed, aborting package creation"
+			exit 1
+	fi
+
+PKGNAME=$p
+
+echo -e "\nArch package created:"
+ls --color $PKGNAME*.tar.gz
+read -p "Enter a version number for this package that is valid on your distribution: " PKGVERSION
+
+if [ -d "pkg/$PKGNAME" ]; then
+	pushd pkg/$PKGNAME
+	echo "Stripping pacman metadata from package directory"
+	rm -f .MTREE .PKGINFO
+	ls -l --color
+	popd
+	echo "Creating native package with FPM"
+	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -C pkg/$PKGNAME/ . && \
+		echo -e "Righteous, deb package has been created.\n" && \
+		ls --color *.$PKGTYPYE && \ 
+		exit 0
+	echo "there mighta been a problem with FPM"
+	exit 1
+fi
+
+echo "Error, dude. The directory pkg/$PKGNAME don't exist yo."
+exit 1
+
+cd pkg/$PKGNAME && \
+rm -f .MTREE .PKGINFO && \
+fpm -s dir -t deb -n $PKGNAME -v $VERSION . && \ 
+cd ../..
+echo -e "Righteous, deb package has been created.\n" && \
+ls --color *.deb
+done
+
+cd $d
+
+# ------------------------------------------------------
+
+
+# read -p "What is the package name? " PKGNAME
+
+# FPM takes the argument "--depends DEPENDENCY", and it can be declared multiple times
+# 
+
+# Arch's makepkg generates a .PKGINFO file that has lines like this:
+# depend = pcre
+# depend = libgl
+# ..etc, so it would be easy to use awk to parse that into a legitimate argument to do it

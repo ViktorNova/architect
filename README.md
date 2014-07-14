@@ -2,14 +2,38 @@ Architect
 ===========
 Builds native packages for any Linux distribution the source code repositories from Arch Linux and AUR
 
-This is a work in progress but it does already works!
+If you compile software from source and use a Linux distribution other than Arch, you NEED this. 
+Here's how it works
 
+Since Architect uses development packages on *your* system, the packages it compiles are 100% compatible with your system
 There is currently no dependency resolution (build-time or install time), so you will have to resolve dependencies on your own until this gets worked out
 
-Note: You will need FPM in order to use this 
-Follow the instructions here to install it with Ruby gems: https://github.com/jordansissel/fpm
+###Requirements:
+You will need Ruby, Ruby Gems, and the amazing tool *FPM* in order to use this
+Follow the instructions here to install FPM via Ruby gems: https://github.com/jordansisse$
+
+You will also need the following packages from Arch Linux to be installed on your system:
+    - abs
+    - pacman
+    - pacman-mirrorlist
+    - expac
+
+Ironically, I don't have these packaged up yet for any distro other than Porteus & Debian Dog (a Porteus-ized Debian & Puppy mashup), but will post them soon
+
+These instructions will also be updated soon, but here's a quickie:
+
+To build and package, for example, qtfm-svn from AUR:
+
+````
+architect-aur qtfm-svn
+````
+
+The rest is self explanitory. For now you have to set the version manually, but you'll be prompted.
+It's stupid easy!
 
 
+
+Here's the old instructions for historical reference (the parts about setting up pacman on a non-Arch system still apply)
 ## --------------------------------------
 #### Note: this section is a little out of date, and only applies to Porteus (using the old method)
 Will be updated soon! 
