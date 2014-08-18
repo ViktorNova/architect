@@ -10,7 +10,7 @@ There is currently no dependency resolution (build-time or install time), so you
 
 ###Requirements:
 You will need Ruby, Ruby Gems, and the amazing tool *FPM* in order to use this
-Follow the instructions here to install FPM via Ruby gems: https://github.com/jordansisse$
+Follow the instructions here to install FPM via Ruby gems: https://github.com/jordansissel/fpm
 
 You will also need the following packages from Arch Linux to be installed on your system:
     - abs
