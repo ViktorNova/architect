@@ -1,14 +1,16 @@
 #!/bin/sh
-echo "Architect v. 0.02, 2014-07-13"
+echo "Architect v. 0.8.1, 2014-10-31"
 echo "By Viktor Nova"
 
 # Uncomment ONE (and only one) of these to match your target system
 PKGTYPE="deb"
-#PKGTYPE=rpm
-#PKGTYPE=tar  # Pick this for Slackware
-#PKGTYPE=solaris
+#PKGTYPE="rpm"
+#PKGTYPE="tar"  # Pick this for Slackware
+#PKGTYPE="solaris"
 
 PKGARCH="`uname -m`"
+#PKGARCH="i686" #Uncomment this if you are on a 32-bit x86 distribution (ABS compiles all 32-bit x86 packages with i686 optimization by default)
+
 
 PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for deb/rpm at the moment)
 
