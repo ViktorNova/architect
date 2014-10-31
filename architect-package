@@ -3,8 +3,8 @@
 # Try to get this to get run by makepkg at the end
 
 # Uncomment ONE (and only one) of these to match your target system
-PKGTYPE="deb"
-#PKGTYPE=rpm
+#PKGTYPE="deb"
+PKGTYPE=tar
 #PKGTYPE=tar  # Pick this for Slackware
 #PKGTYPE=solaris
 
@@ -28,8 +28,9 @@ if [ -d "pkg/$PKGNAME" ]; then
 	popd
 	echo "Creating native package with FPM"
 #	fpm -s dir -t deb -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.deb -C pkg/$PKGNAME/ . 
+	PKGTYPE="tar"
 	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -C pkg/$PKGNAME/ . && \
-		echo -e "Righteous, deb package has been created.\n" && \
+		echo -e "Righteous, all the fuckin packages haz been created.\n" && \
 		ls --color *.$PKGTYPYE && \ 
 		exit 0
 	echo "there mighta been a problem with FPM"
