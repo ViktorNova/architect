@@ -1,0 +1,9 @@
+The Arch Build System, or ABS, is a series of tools used to obtain the PKGBUILD
+scripts that make the packages in Arch Linux's official repositories and work
+with them.
+
+Included with ABS is a collection of prototype PKGBUILD files, installed to
+/usr/share/pacman, for building RCS-style packages (such as CVS or SVN). These
+are installed alongside the stock PKGBUILD and .install file prototypes 
+provided by pacman.
+

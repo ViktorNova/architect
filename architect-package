@@ -27,7 +27,7 @@ if [ -d "pkg/$PKGNAME" ]; then
 	ls -l --color
 	popd
 	echo "Creating native package with FPM"
-	fpm -s dir -t deb -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.deb -C pkg/$PKGNAME/ . 
+#	fpm -s dir -t deb -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.deb -C pkg/$PKGNAME/ . 
 	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -C pkg/$PKGNAME/ . && \
 		echo -e "Righteous, deb package has been created.\n" && \
 		ls --color *.$PKGTYPYE && \ 
