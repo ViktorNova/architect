@@ -11,22 +11,23 @@ There is currently no dependency resolution (build-time or install time), so you
 ###Requirements:
 
 You will need to have the following packages installed on your system already:
-    - curl
-    - fakeroot
-    - ruby
-    - gems
-    - fpm 
+  - curl
+  - fakeroot
+  - bsdtar
+  - ruby
+  - gems
+  - fpm 
 Follow the instructions here to install FPM via Ruby gems: https://github.com/jordansissel/fpm
 
 You will also need to install the #architect-arch-tools# package that corresponds to your distribution, which you will find in the packages directory (deb, rpm, tgz, and xzm are included) 
 
 Note: this package is just a combo package of the following tools from Arch, re-packaged straight from the Arch Linux binaries. It's mostly shell scripts, and they seem to work on most systems, but if you want to re-compile them natively, it shouldn't be too hard:
-    - abs
-    - pacman
-    - pacman-mirrorlist
-    - expac
-    - archlinux-keyring
-    - aur.sh
+  - abs
+  - pacman
+  - pacman-mirrorlist
+  - expac
+  - archlinux-keyring
+  - aur.sh
 
 These instructions will also be updated soon, but here's a quickie:
 
