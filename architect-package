@@ -10,25 +10,54 @@ PKGTYPE="deb"
 PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for deb/rpm at the moment)
 
 
-echo "Architect v. 0.8.1, 2014-10-31"
+echo "Architect v. 0.8.2, 2015-02-16"
 echo "By Viktor Nova"
-echo -e "\nHey dude! Here's the Arch packages I found in the current directory: "
-ls --color *.tar.gz
-read -p "What is the package name? " PKGNAME
+echo
+
+ls -l --color=auto
+echo "\nCurrent directury is: `pwd`"
+
+echo 
+read -p "What is the package name? (${PWD##*/})" PKGNAME
+
+if [ -z "$PKGNAME" ]; then
+	PKGNAME=${PWD##*/}
+fi
 
 read -p "What is the version? " PKGVERSION
+
+echo
+echo 	"0: System default"
+echo 	"1: All (noarch)"
+echo 	"2: i386"
+echo 	"3: i686"
+echo 	"4: x86_64"
+echo 	"5: Other (specify) \n"
+
+read -p "What is the architecture? (0) " n
+case $n in
+    0) ARCHITECTURE="native";;
+    1) ARCHITECTURE="all";;
+    2) ARCHITECTURE="i386";;
+    3) ARCHITECTURE="i686";;
+    4) ARCHITECTURE="x86_64";;
+    5) read -p "Enter your target package architecture: " ARCHITECTURE;;
+    *) 	echo "Invalid choice. Building default system native package"
+	ARCHITECTURE="native";;
+esac
+
 
 
 if [ -d "pkg/$PKGNAME" ]; then
 	pushd pkg/$PKGNAME
-	echo "Stripping pacman metadata from package directory"
+	echo "Stripping pacman metadata from package directory (TODO: use this to generate native dependencies!)"
 	rm -f .MTREE .PKGINFO
-	ls -l --color
-	popd
+	ls -l --color=auto
 	echo "Creating native package with FPM"
-	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -C pkg/$PKGNAME/ . && \
+	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -a $ARCHITECTURE -C pkg/$PKGNAME/ . && \
 		echo -e "Righteous dude, your package has been created.\n" && \
-		ls --color *.$PKGTYPYE && \ 
+		echo "Listing packages in current directory: " \
+		ls --color=auto *.$PKGTYPE \ 
 		exit 0
 	echo "there mighta been a problem with FPM"
 	exit 1
@@ -37,19 +66,14 @@ fi
 echo "Error, dude. The directory pkg/$PKGNAME don't exist yo."
 exit 1
 
-cd pkg/$PKGNAME && \
-rm -f .MTREE .PKGINFO && \
-fpm -s dir -t deb -n $PKGNAME -v $VERSION . && \ 
-cd ../..
-echo -e "Righteous, deb package has been created.\n" && \
-ls --color *.deb
-
-
-
-
+#cd pkg/$PKGNAME && \
+#rm -f .MTREE .PKGINFO && \
+#fpm -s dir -t deb -n $PKGNAME -v $VERSION . && \ 
+#cd ../..
+#echo -e "Righteous, $PKGTYPE package has been created.\n" && \
+#ls --color *.deb
 
 # ----------------------------------
-
 # FPM takes the argument "--depends DEPENDENCY", and it can be declared multiple times
 # 
 
