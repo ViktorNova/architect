@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 echo "Architect v. 0.8.1, 2014-10-31"
 echo "By Viktor Nova"
 
@@ -9,19 +9,26 @@ PKGTYPE="deb"
 #PKGTYPE="solaris"
 
 PKGARCH="`uname -m`"
-#PKGARCH="i686" #Uncomment this if you are on a 32-bit x86 distribution (ABS compiles all 32-bit x86 packages with i686 optimization by default)
+#PKGARCH="i686" #Uncomment this if you are on a 32-bit x86 distribution (ABS compiles all 32-bit x86 packages with i686 optimization by default, but most other Linux distributions )
 
 
 PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for deb/rpm at the moment)
 
-# Parts of this section are taken from aur.sh - https://github.com/stuartpb/aur.sh
+#########################################
+## This section is adapted from aur.sh ##
+## https://github.com/stuartpb/aur.sh  ##
+#########################################
 d=${BUILDDIR:-$PWD}
+echo "d is $d"
 for p in ${@##-*}
 do
 cd $d
-curl https://aur.archlinux.org/packages/${p:0:2}/$p/$p.tar.gz |tar xz
+curl "https://aur.archlinux.org/packages/${p:0:2}/$p/$p.tar.gz" |tar xz
 cd $p
 makepkg -d ${@##[^\-]*}
+done
+### end of aur.sh
+
 
 	if [ $? -ne 0 ]
 		then
