@@ -15,8 +15,9 @@ echo "By Viktor Nova"
 echo
 
 ls -l --color=auto
-echo "\nCurrent directury is: `pwd`"
 
+echo "\nCurrent directory is: `pwd`"
+ls -l --color=auto pkg/
 echo 
 read -p "What is the package name? (${PWD##*/})" PKGNAME
 
@@ -52,11 +53,13 @@ if [ -d "pkg/$PKGNAME" ]; then
 	pushd pkg/$PKGNAME
 	echo "Stripping pacman metadata from package directory (TODO: use this to generate native dependencies!)"
 	rm -f .MTREE .PKGINFO
+	echo "Stripping binaries"
+	find . | xargs file | grep ELF | cut -f 1 -d : | xargs strip --strip-unneeded
 	ls -l --color=auto
-	echo "Creating native package with FPM"
+	echo "Creating $ARCHITECTURE package with FPM"
 	fpm -s dir -t $PKGTYPE -n $PKGNAME -v $PKGVERSION -p $PKGNAME-VERSION_ARCH.$PKGEXT -a $ARCHITECTURE -C pkg/$PKGNAME/ . && \
 		echo -e "Righteous dude, your package has been created.\n" && \
-		echo "Listing packages in current directory: " \
+		echo "Listing packages in current directory: \n" \
 		ls --color=auto *.$PKGTYPE \ 
 		exit 0
 	echo "there mighta been a problem with FPM"
