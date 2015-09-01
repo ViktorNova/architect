@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 echo "Architect v. 0.8.1, 2014-10-31"
 echo "By Viktor Nova"
 
@@ -18,12 +18,14 @@ PKGEXT=$PKGTYPE # TODO - make this work for "tar" and "solaris" (only works for 
 ## This section is adapted from aur.sh ##
 ## https://github.com/stuartpb/aur.sh  ##
 #########################################
+
 d=${BUILDDIR:-$PWD}
 echo "d is $d"
 for p in ${@##-*}
 do
 cd $d
-curl "https://aur.archlinux.org/packages/${p:0:2}/$p/$p.tar.gz" |tar xz
+wget -e robots=off -r -np -nH --cut-dirs 3 --reject "index.html" "http://pkgbuild.com/git/aur-mirror.git/plain/$p/"
+#curl "https://http://pkgbuild.com/git/aur-mirror.git/plain/$p/"
 cd $p
 makepkg -d ${@##[^\-]*}
 done
@@ -81,4 +83,4 @@ cd $d
 # Arch's makepkg generates a .PKGINFO file that has lines like this:
 # depend = pcre
 # depend = libgl
-# ..etc, so it would be easy to use awk to parse that into a legitimate argument to do it
+# ..etc so it would be easy to use awk to parse that into a legitimate argument to do it
